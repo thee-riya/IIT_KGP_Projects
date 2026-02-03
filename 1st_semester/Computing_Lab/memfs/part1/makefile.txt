@@ -5,7 +5,7 @@ CXXFLAGS = -std=c++20 -pthread -Wall -Wextra -O2
 # Output executable name
 TARGET = memfs
 # Source file
-SOURCES = 24CS60R71_Part1.cpp
+SOURCES = 24CS60R70_Part1.cpp
 # Object file
 OBJECTS = $(SOURCES:.cpp=.o)
 

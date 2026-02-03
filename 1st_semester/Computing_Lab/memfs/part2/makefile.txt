@@ -5,10 +5,10 @@ CXX = g++
 CXXFLAGS = -std=c++17 -pthread -Wall
 
 # Target executable
-TARGET = 24CS60R71_Part2
+TARGET = 24CS60R70_Part2
 
 # Source files
-SRCS = 24CS60R71_Part2.cpp
+SRCS = 24CS60R70_Part2.cpp
 
 # Object files
 OBJS = $(SRCS:.cpp=.o)
