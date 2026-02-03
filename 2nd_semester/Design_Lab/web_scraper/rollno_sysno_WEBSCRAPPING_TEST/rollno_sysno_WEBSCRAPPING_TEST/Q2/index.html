@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Lab || Test 2</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .page {
+            display: none;
+        }
+
+        .active {
+            display: block;
+        }
+
+        #hiddenText {
+            display: none;
+            margin-top: 20px;
+            color: #333;
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+            width: 80%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .question-text {
+            margin: 20px 0;
+            color: #666;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="page1" class="page active">
+        <div class="container">
+            <h1>DESIGN LAB</h1>
+            <h2>Test on web scrapping</h2>
+            <h2>20/01/2025</h2>
+            <button onclick="navigateToPage('page2')">Next</button>
+        </div>
+    </div>
+
+
+    <div id="page2" class="page">
+        <div class="container">
+            <h1>READY? (Like you have a choice!)</h1>
+            <button onclick="navigateToPage('page3')">Oh, Just Get This Over With</button>
+        </div>
+    </div>
+
+    <!-- Page 3 -->
+    <div id="page3" class="page">
+        <div class="container">
+            <h1>Oh wow, guess what? We totally "forgot" to create the questions for this test!</h1>
+            <h2>But do you really trust us ?</h2>
+
+            <button onclick="toggleText()" id="toggleButton">Click here (only if you don't trust us !)</button>
+
+            <div id="hiddenText">
+                <h1>Automation to the rescue—because why not let Selenium do all the work?</h1>
+                <span class="question-text">Scrap the table below and pretend you're a database wizard!</span>
+                <table id="wordTable">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Word</th>
+                            <th>Length</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const allWords = ["galvanotonic", "entrappingly", "Ophidia", "underbuilder", "patricia", "nibble", "arrington", "cuprose", "endogenesis", "retrievement", "judgements", "osteolysis", "algodonite", "Tornit", "Catharism", "punky", "igniferous", "aluminic", "thingy", "unmobbed", "reportable", "marenzio", "swervily", "pseudolichen", "Arminian", "poll", "zoonomia", "afflictingly", "Sanjay", "ganoidal", "neurilematic", "glacis", "Buckleya", "principes", "neoblastic", "childe", "zara", "chapped", "mystax", "shrublike", "rub", "repurpose", "subsystem", "muttonbird", "furnaceman", "odiously", "palette", "quadrinomial", "lawproof", "genotypic", "oaken", "expediential", "slovenlike", "Synaptera", "acheweed", "toothbill", "secohm", "trochilidae", "Agathis", "ureterograph", "celation", "scooper", "precompass", "meconin", "strandless", "swindlery", "bebait", "decursively", "semispan", "destinies", "volost", "lissa", "Psittacidae", "nonfact", "pradhana", "parapsychism", "oxybenzoic", "simplicitude", "concause", "towlike", "toise", "Sadie", "Idaho", "homoeotypic", "accosting", "Cynanchum", "tarsioid", "poteen", "skiograph", "inhibition", "mangelin", "underwear", "stummer", "exuviable", "carcinomata", "preinterpret", "shanksman", "rota", "filo", "honeyfogle", "studiable", "polysomy", "injunctions", "laboredly", "lampmaker", "ruralist", "septemfluous", "Germanism", "defrost", "scarecrow", "decrescent", "occult", "amyelinic", "exhibitant", "decays", "Ziphiidae", "ununiformity", "underbuoy", "bridgewater", "manually", "trocheameter", "spinoneural", "vibgyor", "prestigious", "thermoscope", "triceria", "corymbiate", "bimucronate", "synthetism", "subpatron", "overnimble", "arrowplate", "rinner", "Leptamnium", "inquiringly", "ecstasy", "alkalizable", "flammable", "hyponitric", "retrogastric", "saponify", "unthawed", "arzrunite", "Geryoniidae", "Saka", "balaenid", "Learchus", "proscribed", "plutocracy", "apteroid", "overmatter", "residuation", "whelker", "edaciousness", "Cursorius", "highbred", "meson", "sandy", "Sigmodontes", "interpolymer", "hopefulness", "repace", "executer", "threnodial", "unquakerly", "preremorse", "wesley", "breakneck", "anniversary", "scribblative", "billow", "accusatrix", "detectible", "ofttimes", "redware", "lake", "Sycones", "periostitis", "candlebeam", "tardiness", "dyslexia", "aromatophore", "anconeous", "overseverely", "holdable", "inexpertness", "craniopathic", "couperin", "hornify", "trophopathy", "acinetiform", "neolith", "whereabout", "securigerous", "preclusive", "monkhood", "potlatches", "rosary", "quirquincho", "points", "chum", "Chackchiuma", "bilked", "disordered", "plumper", "treatably", "vetitive", "floundered", "standoff", "enrober", "Olinia", "matchcoat", "designless", "civilizing", "glossoscopia", "epiphysary", "corticifugal", "raynal", "Vipera", "cerulean", "chondrogen", "retinite", "flips", "ballistician", "suttee", "Sphenopteris", "blastophoric", "nonsubsiding", "Barnabite", "watermaster", "whirlabout", "oliganthous", "wrongly", "diaphone", "yongst", "togate", "vade", "locklet", "hemagogic", "abecedary", "jacksaw", "unvisioned", "incompleted", "quackishly", "exalbuminous", "Aganippe", "sluggardize", "extensory", "dolorific", "obtrusive", "romantically", "Cecilia", "Albania", "wayward", "lieu", "adelopod", "hapuku", "marbrinus", "caboodle", "giber", "dene", "oraculously", "pansy", "walls", "streamless", "bescutcheon", "macerater", "diatribist", "cocklebur", "zelatrix", "giggledom", "jelke", "presymptom", "revenues", "sudd", "creeshie", "bezique", "myosis", "sinkerless", "braving", "ductilize", "phlebotome", "Krameriaceae", "protradition", "kyack", "strumatic", "Nymphonacea", "appalled", "intriguer", "jumfru", "pantothenate", "ridgewise", "postauditory", "crucethouse", "snock", "aciniform", "divellicate", "semicrepe", "gastrectasia", "buncher", "preobvious", "rim", "unnucleated", "Russifier", "flitwite", "optimism", "pellucidness", "squaring", "craggily", "parableptic", "penicillated", "Labroidea", "stalactital", "data", "nickstick", "xenotime", "paravail", "hygiologist", "perioplic", "sloo", "medullated", "oxyhalide", "conseil", "colchicine", "poodleship", "Renardine", "monoplastic", "equivocatory", "withertip", "fuses", "beadroll", "trilliin", "vulnerose", "slumberingly", "digestible", "Karatas", "uphung", "echoist", "Stellaria", "siserskite", "warlock", "skair", "agoho", "iniomous", "Eatanswill", "Ommiades", "flustrine", "fossilated", "ageustia", "endemiology", "clasmatosis", "kupper", "fluorinate", "smilingly", "chapitral", "unenthralled", "murrina", "Zorillinae", "dexiotropous", "enophthalmus", "Ringatu", "overbase", "Avicennism", "antinomian", "brownish", "jailbird", "diagraph", "oilseed", "chromophane", "montreux", "patte", "dissoul", "Koniaga", "azulmic", "monoplane", "powerfully", "stockmaking", "mastology", "racism", "Mixodectes", "coawareness", "unswitched", "khanda", "cise", "tektites", "forewarn", "arbitrated", "millay", "soler", "barrage", "glassen", "popularness", "synopsy", "pasigraphic", "gonophorous", "Hymettian", "learns", "postical", "confection", "harrity", "Tibetan", "shiel", "petals", "Tremellaceae", "osborne", "Duco", "stainability", "amoralism", "anaspalin", "cachrys", "mckinney", "mislead", "attorn", "zagged", "antisun", "ultraliberal", "urceolate", "bedirter", "nonrigid", "adiate", "grabs", "topinambou", "begari", "campshedding", "laniary", "indrawing", "fetch", "lawing", "captiousness", "skulls", "pubigerous", "nonclotting", "adorned", "either", "stench", "noninitial", "holdership", "tempore", "suppresser", "atragene", "overpurchase", "tetrode", "felinity", "recitatif", "endeavoring", "goethe", "nodi", "Pegasus", "pediculid", "Tehuelche", "ostmark", "nyctophobia", "gristly", "pseudodoxy", "Hauranitic", "epagogic", "recantingly", "sexagenarian", "oftener", "photokinesis", "androidal", "raphaels", "transoms", "torpidly", "germinally", "timon", "Taal", "naturalized", "ipseity", "tomboyishly", "trinalize", "Gold", "Newari", "submergible", "scouk", "jettison", "countergift", "potpie", "unorderly", "baggit", "grovy", "Ellen", "interrailway", "pepo", "Umatilla", "appoints", "parrotlet", "unfreighted", "fruitade", "transcension", "subcommit", "Bairam", "fish", "bestripe", "wingstem", "christian", "preutilize", "Empidonax", "invocant", "blunthearted", "endearing", "antalgesic", "alphabetist", "salenixon", "hulverheaded", "Ganodus", "Stahlianism", "argute", "modulability", "glozingly", "Hydruntine", "stager", "deambulation", "unlavished", "outheel", "glimpses", "stabilify", "refect", "suctorious", "metered", "allanturic", "townhood", "breastwork", "innoxiously", "sensifacient", "flyless", "ideation", "tousy", "accentuality", "diosmose", "gharnao", "autotypic", "degraduate", "raveling", "Latakia", "discoidal", "camise", "discal", "pulsojet", "coarsely", "downthrown", "soma", "neuromimetic", "physopod", "phyllorhine", "anabasis", "uncrinkle", "fenchyl", "pycnomorphic", "Mycomycetes", "rememberer", "inruption", "putas", "Tauropolos", "rovet", "oarhole", "hemogenetic", "unbeaded", "Toxoglossa", "pay", "acetoacetic", "mellisonant", "stationarily", "feministic", "ideology", "reticence", "myxadenoma", "projectedly", "octamerous", "depopulation", "overdeeply", "waterwood", "birefringent", "turbulently", "unrazed", "furfuryl", "tychite", "orlet", "anticomplex", "leucosphere", "interrogant", "phanerocryst", "putout", "laser", "unbloodily", "pote", "counterpoint", "covetousness", "Lehi", "endophragmal", "Favonius", "unmingling", "semidigested", "biquadrantal", "distractive", "oceanology", "perturber", "penda", "plastery", "coeline", "undisplanted", "offal", "teer", "abundance", "Lappic", "morphiate", "abbe", "histozyme", "Apotactici", "growthiness", "fascinates", "deuterodome", "arbitrator", "renews", "cloghad", "unchangingly", "sexpartite", "descending", "paltry", "tophaike", "autotelic", "undereye", "leathered", "ached", "myxoglioma", "blood", "bandarlog", "Montezuma", "druxiness", "fro", "adiation", "stanchion", "bellow", "enraptured", "northers", "Maoriland", "unflagged", "Pesach", "Leskea", "urinary", "androphobia", "paved", "guemal", "capitulatory", "coemployment", "fathom", "daktylon", "swayer", "sailage", "pests", "disreputable", "cubicone", "pustulation", "scourge", "liquid", "Garcinia", "blossomry", "traversework", "thiourea", "resurgent", "suitably", "asparagine", "arteriasis", "Ephemera", "onirotic", "ghostlify", "coverture", "spookdom", "earpiece", "bekick", "venomed", "graveclothes", "submucosal", "clays", "screamproof", "medic", "sambaqui", "busk", "unlavish", "buccinator", "wordably", "remingle", "headwaiter", "bromate", "zeoscope", "suave", "biscacha", "impaling", "galvayne", "unhelm", "promenades", "sniggerer", "perfusion", "bakery", "woodcockize", "centipedal", "denegate", "centrifugate", "egret", "Bantu", "sojourner", "roscherite", "organization", "codfish", "perihernial", "merciless", "nenta", "inunctum", "bronzewing", "papilliform", "atlanta", "Echeloot", "gorgonlike", "pintadoite", "marion", "fibromatosis", "fillet", "purre", "unganged", "daggletailed", "population", "uncoffined", "arcuated", "depriorize", "paltriness", "intercombine", "prevalently", "Anaxonia", "incubus", "Tyrannus", "encrinitic", "modulated", "homoblasty", "tabetic", "pregrowth", "molendinar", "untrusting", "humistratous", "unsealed", "cleveite", "unsoothed", "claviature", "hispidulous", "lessen", "rightful", "dicrotic", "pleasurably", "pharyngitis", "bonxie", "kenzo", "nonswimming", "swirl", "montgolfier", "scyphostoma", "Algonquian", "navalist", "planoblastic", "typewritten", "thymectomize", "pictograph", "hackberry", "untragical", "Sporochnus", "dialogic", "subinfeud", "Czechic", "Geomys", "preofficial", "unideaed", "Derris", "hypodermous", "hia", "decalescence", "focimetry", "clamatorial", "swissing", "preinvest", "doucet", "abreaction", "simplicist", "illaudatory", "chaa", "docket", "bagatine", "crossette", "speering", "worldful", "Corimelaena", "corometer", "theave", "pandership", "xylographic", "Rytina", "Porocephalus", "Brazilian", "taller", "ozobrome", "Lutreola", "echolalia", "endostylic", "pinguedinous", "eavedrop", "Albion", "Carlyleian", "unepauleted", "tricennial", "vertibleness", "hallmarks", "jaundice", "Gelfomino", "Onchocerca", "boro", "booter", "antirobin", "forevision", "repellent", "lacuscular", "curial", "transpacific", "princeps", "response", "wills", "glottogonic", "unsuccorable", "cadlock", "Eulimidae", "filcher", "ritual", "ascertained", "uninwreathed", "dipterocarp", "slaistery", "nakong", "mesopotamia", "beglamour", "funds", "crustose", "warrantable", "fumitory", "harriman", "Directoire", "speculate", "nondescript", "colors", "harebrained", "pegboards", "urinal", "extrapolar", "Sybarite", "concessor", "Chemakuan", "monovoltine", "demonic", "agalactia", "oxyfluoride", "extrabuccal", "Anophthalmus", "unsilent", "Laurencia", "Yale", "Welshlike", "maxwell", "Pteraspidae", "salesgirl", "attached", "belief", "semper", "undamped", "epigraphy", "deciduously", "innocuous", "Dunkard", "warrener", "handy", "posttoxic", "buttermilk", "Caesarism", "deadpay", "ceruleite", "exert", "entablatured", "notchboard", "tarweed", "paraphasia", "Vaucheria", "formicine", "trivialness", "naphthene", "dolose", "Doeg", "scena", "bom", "compresent", "Rhizopus", "unmixable", "doughfoot", "filching", "englanders", "thalattology", "hidalgism", "boxed", "scatoscopy", "semiharden", "uncovenanted", "untenderness", "sufferings", "phreatophyte", "flagellum", "untransfixed", "splenopathy", "Dadayag", "trackside", "intruse", "objectation", "bong", "Paola", "Trinacrian", "daffing", "Yugoslavian", "courtierism", "bicorporal", "Cymric", "sketcher", "Protozoa", "sclerocauly", "guitar", "implunge", "recoiled", "cowfish", "Shammar", "Lygaeidae", "entopic", "investitor", "premodel", "tubwoman", "exorbital", "twangler", "aupaka", "Chaenolobus", "unshaven", "Coelata", "Hollywooder", "lattermath", "semilunare", "exemptible", "unprejudiced", "apsidiole", "Bosporian", "alopecoid", "celiolymph", "dandy", "ventilated", "unevaporate", "friended", "carreer", "affixation", "quinse", "expropriated", "partook", "mensk", "chupon", "natuary", "potagery", "simulated", "gemmaceous", "exteriorate", "postneural", "Exogyra", "reattentive", "angulous", "Ptinus", "Nanny", "Clackama", "katabasis", "ginseng", "shopwoman", "epichorial", "portland", "entocoelic", "reapprove", "transmuter", "unannounced", "finochio", "preperuse", "deploration", "catallum", "thema", "vestrify", "reunionistic", "unfelt", "mephitism", "capturable", "clinquant", "bovinity", "foldcourse", "renascence", "unriveting", "zygotactic", "citronellal", "mico"]
+        function getRandomWords(count) {
+            const shuffled = [...allWords].sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, Math.min(count, shuffled.length));
+        }
+
+        function populateTable() {
+            const tbody = document.querySelector('#wordTable tbody');
+            const randomWords = getRandomWords(10);
+
+            tbody.innerHTML = '';
+            randomWords.forEach((word, index) => {
+                const row = tbody.insertRow();
+                row.insertCell(0).textContent = index + 1;
+                row.insertCell(1).textContent = word;
+                row.insertCell(2).textContent = word.length + Math.floor(Math.random() * 10);
+            });
+        }
+
+        function navigateToPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+
+            if (pageId === 'page3') {
+                populateTable();
+            }
+        }
+
+        function toggleText() {
+            const hiddenText = document.getElementById('hiddenText');
+            const toggleButton = document.getElementById('toggleButton');
+
+            if (hiddenText.style.display === 'none' || hiddenText.style.display === '') {
+                hiddenText.style.display = 'block';
+                toggleButton.textContent = 'Show Less';
+            } else {
+                hiddenText.style.display = 'none';
+                toggleButton.textContent = 'Show More';
+            }
+        }
+    </script>
+</body>
+
+</html>
